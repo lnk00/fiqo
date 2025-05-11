@@ -12,18 +12,21 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.0",
     "@tailwindcss/vite": "^4.1.5",
+    "@tanstack/react-router": "^1.120.3",
+    "@tanstack/react-router-devtools": "^1.120.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.507.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "shared": "workspace:*",
     "server": "workspace:*",
+    "shared": "workspace:*",
     "tailwind-merge": "^3.2.0",
     "tailwindcss": "^4.1.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
+    "@tanstack/router-plugin": "^1.120.3",
     "@types/node": "^22.15.2",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
