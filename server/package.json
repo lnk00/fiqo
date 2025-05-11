@@ -9,9 +9,11 @@
   },
   "dependencies": {
     "hono": "^4.7.7",
+    "pg": "^8.15.6",
     "shared": "workspace:*"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/pg": "^8.15.1"
   }
 }
