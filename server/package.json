@@ -8,6 +8,7 @@
     "dev": "bun run --hot src/index.ts"
   },
   "dependencies": {
+    "dotenv": "^16.5.0",
     "hono": "^4.7.7",
     "pg": "^8.15.6",
     "shared": "workspace:*"
