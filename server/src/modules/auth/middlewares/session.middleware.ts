@@ -1,9 +1,9 @@
-import { auth } from '@server/lib/auth.lib';
 import type { Context, Next } from 'hono';
-import type { HonoContext } from '..';
+import { auth } from '../services/auth.service';
+import type { HonoContextType } from '@server/modules/core/types';
 
 export const sessionMiddleware = async (
-  c: Context<HonoContext>,
+  c: Context<HonoContextType>,
   next: Next,
 ) => {
   const session = await auth.api.getSession({ headers: c.req.raw.headers });

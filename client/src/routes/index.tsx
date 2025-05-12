@@ -8,12 +8,11 @@ export const Route = createFileRoute('/' as never)({
 
 function RouteComponent() {
   useEffect(() => {
-    client.hello
+    client.api
       .$get()
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
+      .then((data) => console.log(data))
+      .catch((e) => console.log(e));
   }, []);
 
   return (

@@ -1,44 +1,20 @@
 import { Hono } from 'hono';
-import type { ApiResponse } from 'shared/dist';
-import { hc } from 'hono/client';
 import 'dotenv/config';
-import { auth } from './lib/auth.lib';
-import { corsMiddleware } from './middlewares/cors.middleware';
-import { sessionMiddleware } from './middlewares/session.middleware';
+import { corsMiddleware } from './modules/core/middlewares/cors.middleware';
+import { sessionMiddleware } from './modules/auth/middlewares/session.middleware';
+import type { HonoContextType } from './modules/core/types';
+import { authHandler } from './modules/auth/handlers';
+import { apiVersionHandler } from './modules/core/handlers';
 
-export type HonoContext = {
-  Variables: {
-    user: typeof auth.$Infer.Session.user | null;
-    session: typeof auth.$Infer.Session.session | null;
-  };
-};
-
-const app = new Hono<HonoContext>();
+const app = new Hono<HonoContextType>();
 
 app.use('*', corsMiddleware);
 app.use('*', sessionMiddleware);
 
-app.on(['POST', 'GET'], '/api/auth/*', (c) => {
-  return auth.handler(c.req.raw);
-});
+const routes = app
+  .on(['POST', 'GET'], '/api/auth/*', authHandler)
+  .get('/api', apiVersionHandler);
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!');
-});
-
-app.get('/hello', async (c) => {
-  const data: ApiResponse = {
-    message: 'Hello BHVR!',
-    success: true,
-  };
-
-  return c.json(data, { status: 200 });
-});
-
-const client = hc<typeof app>('');
-export type Client = typeof client;
-
-export const hcWithType = (...args: Parameters<typeof hc>): Client =>
-  hc<typeof app>(...args);
+export type AppType = typeof routes;
 
 export default app;
