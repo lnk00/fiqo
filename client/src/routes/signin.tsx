@@ -61,8 +61,8 @@ function RouteComponent() {
         <h1 className="text-4xl font-display absolute">fiqo</h1>
         <div className="h-full w-full flex justify-center flex-col gap-8">
           <div className="flex flex-col gap-1">
-            <h2 className="text-5xl font-bold font-display">Welcome back</h2>
-            <div className="text-lg text-muted-foreground pl-2">
+            <h2 className="text-5xl font-bold font-display">Sign-in</h2>
+            <div className="text-lg text-muted-foreground">
               Enter your email to receive a one-time pass code.
             </div>
           </div>
