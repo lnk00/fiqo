@@ -1,42 +1,22 @@
 import { Hono } from 'hono';
-import { cors } from 'hono/cors';
 import type { ApiResponse } from 'shared/dist';
 import { hc } from 'hono/client';
-import { auth } from './auth';
 import 'dotenv/config';
+import { auth } from './lib/auth.lib';
+import { corsMiddleware } from './middlewares/cors.middleware';
+import { sessionMiddleware } from './middlewares/session.middleware';
 
-const app = new Hono<{
+export type HonoContext = {
   Variables: {
     user: typeof auth.$Infer.Session.user | null;
     session: typeof auth.$Infer.Session.session | null;
   };
-}>();
+};
 
-app.use(
-  '*',
-  cors({
-    origin: process.env.FRONT_URL || '',
-    allowHeaders: ['Content-Type', 'Authorization'],
-    allowMethods: ['POST', 'GET', 'OPTIONS'],
-    exposeHeaders: ['Content-Length'],
-    maxAge: 600,
-    credentials: true,
-  }),
-);
+const app = new Hono<HonoContext>();
 
-app.use('*', async (c, next) => {
-  const session = await auth.api.getSession({ headers: c.req.raw.headers });
-
-  if (!session) {
-    c.set('user', null);
-    c.set('session', null);
-    return next();
-  }
-
-  c.set('user', session.user);
-  c.set('session', session.session);
-  return next();
-});
+app.use('*', corsMiddleware);
+app.use('*', sessionMiddleware);
 
 app.on(['POST', 'GET'], '/api/auth/*', (c) => {
   return auth.handler(c.req.raw);
