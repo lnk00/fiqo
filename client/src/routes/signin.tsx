@@ -1,15 +1,8 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import { motion } from 'motion/react';
 import { authClient } from '@/modules/auth/services/auth-client.service';
-import { Input } from '@/modules/shared/components/ui/input';
-import { Button } from '@/modules/shared/components/ui/button';
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
-} from '@/modules/shared/components/ui/input-otp';
 import { useSigninForm } from '@/modules/auth/hooks/useSigninForm.hook';
+import { EmailForm } from '@/modules/auth/components/email-form';
+import { OtpForm } from '@/modules/auth/components/otp-form';
 
 export const Route = createFileRoute('/signin')({
   component: RouteComponent,
@@ -48,69 +41,20 @@ function RouteComponent() {
           </div>
 
           {!showOtp && (
-            <motion.div
-              ref={emailFormRef}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, easing: 'ease-out', delay: 0.2 }}
-              className="flex flex-col gap-4 h-[300px]"
-            >
-              <Input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <Button onClick={handleSigninWithEmail}>
-                sign-in with email
-              </Button>
-
-              <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-                <span className="relative z-10 bg-background px-2 text-muted-foreground">
-                  Or continue with
-                </span>
-              </div>
-              <div className="flex gap-4">
-                <Button className="flex-1">sign-in with apple</Button>
-                <Button className="flex-1">sign-in with google</Button>
-              </div>
-            </motion.div>
+            <EmailForm
+              email={email}
+              setEmail={setEmail}
+              emailFormRef={emailFormRef}
+              handleSigninWithEmail={handleSigninWithEmail}
+            />
           )}
 
           {showOtp && (
-            <motion.div
-              ref={otpFormRef}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, easing: 'ease-out', delay: 0.2 }}
-              className="flex flex-col gap-8 h-[300px]"
-            >
-              <div className="flex">
-                <InputOTP maxLength={6} onComplete={handleVerifyOtp}>
-                  <InputOTPGroup>
-                    <InputOTPSlot index={0} />
-                    <InputOTPSlot index={1} />
-                    <InputOTPSlot index={2} />
-                  </InputOTPGroup>
-                  <InputOTPSeparator />
-                  <InputOTPGroup>
-                    <InputOTPSlot index={3} />
-                    <InputOTPSlot index={4} />
-                    <InputOTPSlot index={5} />
-                  </InputOTPGroup>
-                </InputOTP>
-              </div>
-              <div className="flex gap-4">
-                <Button
-                  className="flex-1"
-                  variant="outline"
-                  onClick={handleBackToEmail}
-                >
-                  Back to email
-                </Button>
-                <Button className="flex-1">Verify</Button>
-              </div>
-            </motion.div>
+            <OtpForm
+              otpFormRef={otpFormRef}
+              handleVerifyOtp={handleVerifyOtp}
+              handleBackToEmail={handleBackToEmail}
+            />
           )}
         </div>
       </div>
