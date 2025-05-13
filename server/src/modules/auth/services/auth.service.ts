@@ -21,4 +21,10 @@ export const auth = betterAuth({
     }),
   ],
   trustedOrigins: [process.env.FRONT_URL || ''],
+  session: {
+    cookieCache: {
+      enabled: true,
+      maxAge: 5 * 60,
+    },
+  },
 });
