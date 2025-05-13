@@ -31,9 +31,12 @@ function RouteComponent() {
   };
 
   return (
-    <div className="p-2">
-      <h3>Welcome Home!</h3>
-      <Button onClick={handleSignout}>sign-out</Button>
+    <div className="">
+      <div className="p-2 flex">
+        <Button className="ml-auto" onClick={handleSignout}>
+          sign-out
+        </Button>
+      </div>
     </div>
   );
 }
