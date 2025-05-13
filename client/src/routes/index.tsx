@@ -1,8 +1,6 @@
-import { Button } from '@/components/ui/button';
-import { authClient } from '@/lib/auth';
-import { client } from '@/lib/rpc';
+import { authClient } from '@/modules/auth/services/auth-client.service';
+import { Button } from '@/modules/shared/components/ui/button';
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
-import { useEffect } from 'react';
 
 export const Route = createFileRoute('/' as never)({
   component: RouteComponent,
@@ -21,10 +19,6 @@ export const Route = createFileRoute('/' as never)({
 
 function RouteComponent() {
   const navigate = useNavigate({ from: '/' });
-
-  useEffect(() => {
-    client.api.$get();
-  }, []);
 
   const handleSignout = async () => {
     await authClient.signOut({

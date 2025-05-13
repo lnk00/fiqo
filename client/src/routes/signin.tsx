@@ -1,15 +1,15 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { authClient } from '@/lib/auth';
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 import { motion, useAnimate } from 'motion/react';
+import { authClient } from '@/modules/auth/services/auth-client.service';
+import { Input } from '@/modules/shared/components/ui/input';
+import { Button } from '@/modules/shared/components/ui/button';
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSeparator,
   InputOTPSlot,
-} from '@/components/ui/input-otp';
+} from '@/modules/shared/components/ui/input-otp';
 
 export const Route = createFileRoute('/signin')({
   component: RouteComponent,
