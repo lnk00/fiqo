@@ -1,6 +1,5 @@
-import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
-import { useState } from 'react';
-import { motion, useAnimate } from 'motion/react';
+import { createFileRoute, redirect } from '@tanstack/react-router';
+import { motion } from 'motion/react';
 import { authClient } from '@/modules/auth/services/auth-client.service';
 import { Input } from '@/modules/shared/components/ui/input';
 import { Button } from '@/modules/shared/components/ui/button';
@@ -10,6 +9,7 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from '@/modules/shared/components/ui/input-otp';
+import { useSigninForm } from '@/modules/auth/hooks/useSigninForm.hook';
 
 export const Route = createFileRoute('/signin')({
   component: RouteComponent,
@@ -24,57 +24,16 @@ export const Route = createFileRoute('/signin')({
 });
 
 function RouteComponent() {
-  const [email, setEmail] = useState('');
-  const [showOtp, setShowOtp] = useState(false);
-  const [emailFormRef, animateEmailForm] = useAnimate();
-  const [otpFormRef, animateOtpForm] = useAnimate();
-  const navigate = useNavigate({ from: '/signin' });
-
-  const handleSigninWithEmail = async () => {
-    if (!email) return;
-
-    const { data, error } = await authClient.emailOtp.sendVerificationOtp({
-      email: email,
-      type: 'sign-in',
-    });
-
-    console.log('DATA: ', data);
-    console.log('ERROR: ', error);
-
-    await animateEmailForm(
-      emailFormRef.current,
-      { y: -20, opacity: 0 },
-      { duration: 0.3 },
-    );
-
-    setShowOtp(true);
-  };
-
-  const handleVerifyOtp = async (value: string) => {
-    if (!email) return;
-
-    const { data, error } = await authClient.signIn.emailOtp({
-      email: email,
-      otp: value,
-    });
-
-    console.log('DATA: ', data);
-    console.log('ERROR: ', error);
-
-    if (!error && data) {
-      navigate({ to: '/' as never });
-    }
-  };
-
-  const handleBackToEmail = async () => {
-    await animateOtpForm(
-      otpFormRef.current,
-      { y: -20, opacity: 0 },
-      { duration: 0.3 },
-    );
-
-    setShowOtp(false);
-  };
+  const {
+    email,
+    setEmail,
+    showOtp,
+    emailFormRef,
+    otpFormRef,
+    handleSigninWithEmail,
+    handleVerifyOtp,
+    handleBackToEmail,
+  } = useSigninForm();
 
   return (
     <div className="h-screen w-screen bg-white flex items-center justify-center">
