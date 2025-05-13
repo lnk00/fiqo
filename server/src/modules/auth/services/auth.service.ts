@@ -20,4 +20,5 @@ export const auth = betterAuth({
       },
     }),
   ],
+  trustedOrigins: [process.env.FRONT_URL || ''],
 });

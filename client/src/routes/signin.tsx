@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { authClient } from '@/lib/auth';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 import { motion, useAnimate } from 'motion/react';
 import {
@@ -13,6 +13,14 @@ import {
 
 export const Route = createFileRoute('/signin')({
   component: RouteComponent,
+  beforeLoad: async () => {
+    const { data: session } = await authClient.getSession();
+    if (session) {
+      throw redirect({
+        to: '/' as never,
+      });
+    }
+  },
 });
 
 function RouteComponent() {
@@ -20,6 +28,7 @@ function RouteComponent() {
   const [showOtp, setShowOtp] = useState(false);
   const [emailFormRef, animateEmailForm] = useAnimate();
   const [otpFormRef, animateOtpForm] = useAnimate();
+  const navigate = useNavigate({ from: '/signin' });
 
   const handleSigninWithEmail = async () => {
     if (!email) return;
@@ -42,7 +51,19 @@ function RouteComponent() {
   };
 
   const handleVerifyOtp = async (value: string) => {
-    console.log('OTP value:', value);
+    if (!email) return;
+
+    const { data, error } = await authClient.signIn.emailOtp({
+      email: email,
+      otp: value,
+    });
+
+    console.log('DATA: ', data);
+    console.log('ERROR: ', error);
+
+    if (!error && data) {
+      navigate({ to: '/' as never });
+    }
   };
 
   const handleBackToEmail = async () => {
