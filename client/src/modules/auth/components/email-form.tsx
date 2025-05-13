@@ -29,19 +29,7 @@ export function EmailForm({
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <Button onClick={handleSigninWithEmail}>
-        sign-in with email
-      </Button>
-
-      <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-        <span className="relative z-10 bg-background px-2 text-muted-foreground">
-          Or continue with
-        </span>
-      </div>
-      <div className="flex gap-4">
-        <Button className="flex-1">sign-in with apple</Button>
-        <Button className="flex-1">sign-in with google</Button>
-      </div>
+      <Button onClick={handleSigninWithEmail}>sign-in with email</Button>
     </motion.div>
   );
 }
