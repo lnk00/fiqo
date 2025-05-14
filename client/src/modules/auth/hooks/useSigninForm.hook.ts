@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAnimate } from 'motion/react';
 import { useNavigate } from '@tanstack/react-router';
-import { authClient } from '@/modules/auth/services/auth-client.service';
+import { getService } from '@/ioc';
 
 export function useSigninForm() {
   const [email, setEmail] = useState('');
@@ -9,16 +9,14 @@ export function useSigninForm() {
   const [emailFormRef, animateEmailForm] = useAnimate();
   const [otpFormRef, animateOtpForm] = useAnimate();
   const navigate = useNavigate({ from: '/signin' });
+  const otpService = getService('otp');
 
   const handleSigninWithEmail = async () => {
     if (!email) return;
 
-    const { data, error } = await authClient.emailOtp.sendVerificationOtp({
-      email: email,
-      type: 'sign-in',
-    });
+    try {
+      await otpService.sendOtpMail(email);
 
-    if (!error && data) {
       await animateEmailForm(
         emailFormRef.current,
         { y: -20, opacity: 0 },
@@ -26,19 +24,20 @@ export function useSigninForm() {
       );
 
       setShowOtp(true);
+    } catch (e) {
+      console.log(e);
     }
   };
 
   const handleVerifyOtp = async (value: string) => {
     if (!email) return;
 
-    const { data, error } = await authClient.signIn.emailOtp({
-      email: email,
-      otp: value,
-    });
+    try {
+      await otpService.sendOtpVerification(email, value);
 
-    if (!error && data) {
       navigate({ to: '/' as never });
+    } catch (e) {
+      console.log(e);
     }
   };
 
