@@ -1,4 +1,4 @@
-export const startTinkLinkAggregFlow = () => {
+const startAggregFlow = () => {
   const market = 'EU';
   const locale = 'en_US';
 
@@ -19,4 +19,8 @@ export const startTinkLinkAggregFlow = () => {
   tinkLinkUrl.searchParams.append('locale', locale);
 
   window.location.href = tinkLinkUrl.toString();
+};
+
+export const tink = {
+  startAggregFlow,
 };
