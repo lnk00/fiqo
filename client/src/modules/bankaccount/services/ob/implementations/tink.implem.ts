@@ -1,5 +1,7 @@
 import type { IOBService } from '../ob.interface';
+import { injectable } from 'inversify';
 
+@injectable()
 export class TinkImplem implements IOBService {
   startAggregFlow() {
     const market = 'EU';

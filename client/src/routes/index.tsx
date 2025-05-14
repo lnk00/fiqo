@@ -1,5 +1,5 @@
+import { getService, SERVICES } from '@/ioc';
 import { authClient } from '@/modules/auth/services/auth-client.service';
-import { OBService } from '@/modules/bankaccount/services/ob';
 import { Button } from '@/modules/shared/components/ui/button';
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
 
@@ -20,6 +20,7 @@ export const Route = createFileRoute('/' as never)({
 
 function RouteComponent() {
   const navigate = useNavigate({ from: '/' });
+  const OBService = getService(SERVICES.OBService);
 
   const handleSignout = async () => {
     await authClient.signOut({
