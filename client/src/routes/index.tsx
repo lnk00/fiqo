@@ -1,6 +1,5 @@
 import { getService } from '@/ioc';
 import { Button } from '@/modules/shared/components/ui/button';
-import { betterAuthClient } from '@/utils/http/clients/auth.client';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/' as never)({
@@ -13,14 +12,13 @@ export const Route = createFileRoute('/' as never)({
 
 function RouteComponent() {
   const navigate = useNavigate({ from: '/' });
-  const OBService = getService('ob');
+  const oBService = getService('ob');
+  const sessionService = getService('session');
 
   const handleSignout = async () => {
-    await betterAuthClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          navigate({ to: '/signin' });
-        },
+    await sessionService.signout({
+      onSuccess: () => {
+        navigate({ to: '/signin' });
       },
     });
   };
@@ -38,7 +36,7 @@ function RouteComponent() {
           Link your bank account to access financial services.
         </p>
 
-        <Button onClick={OBService.startAggregFlow} className="w-full">
+        <Button onClick={oBService.startAggregFlow} className="w-full">
           Connect Bank Account
         </Button>
       </div>
