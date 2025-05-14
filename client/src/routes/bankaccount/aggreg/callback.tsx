@@ -1,4 +1,6 @@
+import { getService } from '@/ioc';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { Check, CircleAlert } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export const Route = createFileRoute('/callback' as never)({
@@ -11,59 +13,23 @@ function CallbackComponent() {
     'processing',
   );
   const [message, setMessage] = useState('Processing your bank connection...');
+  const oBService = getService('ob');
 
   useEffect(() => {
-    const handleCallback = async () => {
-      try {
-        // Get code from URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get('code');
-        const error = urlParams.get('error');
-        const errorMessage = urlParams.get('message');
+    try {
+      const code = oBService.handleAggregCallback();
+      console.log(code);
+      setStatus('success');
+      setMessage('Bank account connected successfully!');
 
-        if (error) {
-          setStatus('error');
-          setMessage(`Error: ${errorMessage || 'Unknown error'}`);
-          // Redirect to home after 3 seconds on error
-          setTimeout(() => navigate({ to: '/' as never }), 3000);
-          return;
-        }
-
-        if (!code) {
-          setStatus('error');
-          setMessage('No authorization code received');
-          // Redirect to home after 3 seconds on error
-          setTimeout(() => navigate({ to: '/' as never }), 3000);
-          return;
-        }
-
-        // Here you would typically send the code to your backend
-        // to exchange it for an access token
-        // const response = await fetch('/api/tink/exchange-token', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({ code }),
-        // });
-
-        // if (!response.ok) throw new Error('Failed to exchange token');
-
-        // For demo purposes, we'll just simulate a successful response
-        setStatus('success');
-        setMessage('Bank account connected successfully!');
-
-        // Redirect to home after 2 seconds on success
-        setTimeout(() => navigate({ to: '/' as never }), 2000);
-      } catch (error) {
-        console.error('Error handling Tink callback:', error);
-        setStatus('error');
-        setMessage('An unexpected error occurred');
-        // Redirect to home after 3 seconds on error
-        setTimeout(() => navigate({ to: '/' as never }), 3000);
-      }
-    };
-
-    handleCallback();
-  }, [navigate]);
+      setTimeout(() => navigate({ to: '/' as never }), 2000);
+    } catch (error) {
+      console.error(error);
+      setStatus('error');
+      setMessage(error as string);
+      setTimeout(() => navigate({ to: '/' as never }), 3000);
+    }
+  }, [navigate, oBService.handleAggregCallback]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
@@ -80,38 +46,12 @@ function CallbackComponent() {
           )}
           {status === 'success' && (
             <div className="bg-green-100 text-green-800 rounded-full p-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
+              <Check />
             </div>
           )}
           {status === 'error' && (
             <div className="bg-red-100 text-red-800 rounded-full p-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <CircleAlert />
             </div>
           )}
         </div>

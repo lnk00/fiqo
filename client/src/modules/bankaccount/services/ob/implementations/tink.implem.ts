@@ -25,4 +25,15 @@ export class TinkImplem implements IOBService {
 
     window.location.href = tinkLinkUrl.toString();
   }
+
+  handleAggregCallback() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    const error = urlParams.get('error');
+    const errorMessage = urlParams.get('message');
+
+    if (error || !code) throw errorMessage || 'Error: bank connection failed';
+
+    return code;
+  }
 }
