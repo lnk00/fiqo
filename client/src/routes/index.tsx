@@ -1,20 +1,13 @@
 import { getService } from '@/ioc';
 import { Button } from '@/modules/shared/components/ui/button';
 import { betterAuthClient } from '@/utils/http/clients/auth.client';
-import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/' as never)({
   component: RouteComponent,
   beforeLoad: async () => {
-    const { data: session } = await betterAuthClient.getSession();
-    if (!session) {
-      throw redirect({
-        to: '/signin',
-        search: {
-          redirect: location.href,
-        },
-      });
-    }
+    const guardService = getService('guard');
+    await guardService.redirectIfNotAuthenticated();
   },
 });
 
