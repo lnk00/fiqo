@@ -1,35 +1,13 @@
-import { getService } from '@/ioc';
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { Check, CircleAlert } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useAggregCallback } from '@/modules/bankaccount/hooks/useAggregCallback.hook';
 
 export const Route = createFileRoute('/callback' as never)({
   component: CallbackComponent,
 });
 
 function CallbackComponent() {
-  const navigate = useNavigate();
-  const [status, setStatus] = useState<'processing' | 'success' | 'error'>(
-    'processing',
-  );
-  const [message, setMessage] = useState('Processing your bank connection...');
-  const oBService = getService('ob');
-
-  useEffect(() => {
-    try {
-      const code = oBService.handleAggregCallback();
-      console.log(code);
-      setStatus('success');
-      setMessage('Bank account connected successfully!');
-
-      setTimeout(() => navigate({ to: '/' as never }), 2000);
-    } catch (error) {
-      console.error(error);
-      setStatus('error');
-      setMessage(error as string);
-      setTimeout(() => navigate({ to: '/' as never }), 3000);
-    }
-  }, [navigate, oBService.handleAggregCallback]);
+  const { status, message } = useAggregCallback();
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
