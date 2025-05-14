@@ -1,5 +1,5 @@
-import { tink } from '@/modules/aggreg/services/tink.service';
 import { authClient } from '@/modules/auth/services/auth-client.service';
+import { OBService } from '@/modules/bankaccount/services/ob';
 import { Button } from '@/modules/shared/components/ui/button';
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
 
@@ -44,7 +44,7 @@ function RouteComponent() {
           Link your bank account to access financial services.
         </p>
 
-        <Button onClick={tink.startAggregFlow} className="w-full">
+        <Button onClick={OBService.startAggregFlow} className="w-full">
           Connect Bank Account
         </Button>
       </div>
