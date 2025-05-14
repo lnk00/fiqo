@@ -10,6 +10,7 @@
   "dependencies": {
     "dotenv": "^16.5.0",
     "hono": "^4.7.7",
+    "inversify": "^7.5.1",
     "pg": "^8.15.6",
     "resend": "^4.5.1",
     "shared": "workspace:*"

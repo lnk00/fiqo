@@ -4,7 +4,7 @@ import { injectable } from 'inversify';
 @injectable()
 export class TinkImplem implements IOBService {
   startAggregFlow() {
-    const market = 'EU';
+    const market = 'FR';
     const locale = 'en_US';
 
     const tinkLinkUrl = new URL(

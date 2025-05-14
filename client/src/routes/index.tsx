@@ -1,5 +1,6 @@
 import { getService } from '@/ioc';
 import { Button } from '@/modules/shared/components/ui/button';
+import { rpcClient } from '@/utils/http/clients/rpc.client';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/' as never)({
@@ -16,11 +17,15 @@ function RouteComponent() {
   const sessionService = getService('session');
 
   const handleSignout = async () => {
-    await sessionService.signout({
-      onSuccess: () => {
-        navigate({ to: '/signin' });
-      },
-    });
+    const res = await rpcClient.api.ob.user.create
+      .$get()
+      .then((res) => res.json());
+    console.log(res);
+    // await sessionService.signout({
+    //   onSuccess: () => {
+    //     navigate({ to: '/signin' });
+    //   },
+    // });
   };
 
   return (
