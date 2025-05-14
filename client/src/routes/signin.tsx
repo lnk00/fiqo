@@ -1,13 +1,13 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import { authClient } from '@/modules/auth/services/auth-client.service';
 import { useSigninForm } from '@/modules/auth/hooks/useSigninForm.hook';
 import { EmailForm } from '@/modules/auth/components/email-form';
 import { OtpForm } from '@/modules/auth/components/otp-form';
+import { betterAuthClient } from '@/utils/http/clients/auth.client';
 
 export const Route = createFileRoute('/signin')({
   component: RouteComponent,
   beforeLoad: async () => {
-    const { data: session } = await authClient.getSession();
+    const { data: session } = await betterAuthClient.getSession();
     if (session) {
       throw redirect({
         to: '/' as never,

@@ -1,11 +1,11 @@
 import { injectable } from 'inversify';
 import type { IOtpService } from '../otp.interface';
-import { authClient } from '../../auth-client.service';
+import { betterAuthClient } from '@/utils/http/clients/auth.client';
 
 @injectable()
 export class BetterAuthOtpImplem implements IOtpService {
   async sendOtpMail(email: string) {
-    const { error } = await authClient.emailOtp.sendVerificationOtp({
+    const { error } = await betterAuthClient.emailOtp.sendVerificationOtp({
       email: email,
       type: 'sign-in',
     });
@@ -14,7 +14,7 @@ export class BetterAuthOtpImplem implements IOtpService {
   }
 
   async sendOtpVerification(email: string, code: string) {
-    const { error } = await authClient.signIn.emailOtp({
+    const { error } = await betterAuthClient.signIn.emailOtp({
       email: email,
       otp: code,
     });
