@@ -4,18 +4,14 @@ import type { IOBService } from './modules/bankaccount/services/ob/ob.interface'
 
 export const services: Container = new Container();
 
-export const SERVICES = {
-  OBService: Symbol.for('OBService'),
+type ServiceTypeMap = {
+  ob: TinkImplem;
 };
 
-interface ServiceIdentifierMap {
-  [SERVICES.OBService]: TinkImplem;
-}
+services.bind<IOBService>('ob').to(TinkImplem);
 
-services.bind<IOBService>(SERVICES.OBService).to(TinkImplem);
-
-export function getService<K extends keyof ServiceIdentifierMap>(
-  id: K,
-): ServiceIdentifierMap[K] {
-  return services.get<ServiceIdentifierMap[K]>(id);
+export function getService<K extends keyof ServiceTypeMap>(
+  serviceKey: K,
+): ServiceTypeMap[K] {
+  return services.get(serviceKey);
 }
