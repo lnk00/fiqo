@@ -1,4 +1,5 @@
 import { authClient } from '@/modules/auth/services/auth-client.service';
+import { BankConnection } from '@/modules/shared/components/bank-connection';
 import { Button } from '@/modules/shared/components/ui/button';
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
 
@@ -31,11 +32,21 @@ function RouteComponent() {
   };
 
   return (
-    <div className="">
-      <div className="p-2 flex">
-        <Button className="ml-auto" onClick={handleSignout}>
-          sign-out
-        </Button>
+    <div className="p-8">
+      <div className="p-2 flex justify-between items-center mb-8">
+        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <Button onClick={handleSignout}>Sign Out</Button>
+      </div>
+
+      <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
+        <h2 className="text-xl font-semibold mb-4">Connect Your Bank</h2>
+        <p className="mb-4 text-gray-600">
+          Link your bank account to access financial services.
+        </p>
+        <BankConnection
+          redirectUri={`${window.location.origin}/callback`}
+          className="w-full"
+        />
       </div>
     </div>
   );
