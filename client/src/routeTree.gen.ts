@@ -12,8 +12,8 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SigninImport } from './routes/signin'
-import { Route as CallbackImport } from './routes/callback'
 import { Route as IndexImport } from './routes/index'
+import { Route as BankaccountAggregCallbackImport } from './routes/bankaccount/aggreg/callback'
 
 // Create/Update Routes
 
@@ -23,15 +23,15 @@ const SigninRoute = SigninImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const CallbackRoute = CallbackImport.update({
-  id: '/callback',
-  path: '/callback',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BankaccountAggregCallbackRoute = BankaccountAggregCallbackImport.update({
+  id: '/bankaccount/aggreg/callback',
+  path: '/bankaccount/aggreg/callback',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -46,18 +46,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/callback': {
-      id: '/callback'
-      path: '/callback'
-      fullPath: '/callback'
-      preLoaderRoute: typeof CallbackImport
-      parentRoute: typeof rootRoute
-    }
     '/signin': {
       id: '/signin'
       path: '/signin'
       fullPath: '/signin'
       preLoaderRoute: typeof SigninImport
+      parentRoute: typeof rootRoute
+    }
+    '/bankaccount/aggreg/callback': {
+      id: '/bankaccount/aggreg/callback'
+      path: '/bankaccount/aggreg/callback'
+      fullPath: '/bankaccount/aggreg/callback'
+      preLoaderRoute: typeof BankaccountAggregCallbackImport
       parentRoute: typeof rootRoute
     }
   }
@@ -67,42 +67,42 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/callback': typeof CallbackRoute
   '/signin': typeof SigninRoute
+  '/bankaccount/aggreg/callback': typeof BankaccountAggregCallbackRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/callback': typeof CallbackRoute
   '/signin': typeof SigninRoute
+  '/bankaccount/aggreg/callback': typeof BankaccountAggregCallbackRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/callback': typeof CallbackRoute
   '/signin': typeof SigninRoute
+  '/bankaccount/aggreg/callback': typeof BankaccountAggregCallbackRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/callback' | '/signin'
+  fullPaths: '/' | '/signin' | '/bankaccount/aggreg/callback'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/callback' | '/signin'
-  id: '__root__' | '/' | '/callback' | '/signin'
+  to: '/' | '/signin' | '/bankaccount/aggreg/callback'
+  id: '__root__' | '/' | '/signin' | '/bankaccount/aggreg/callback'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CallbackRoute: typeof CallbackRoute
   SigninRoute: typeof SigninRoute
+  BankaccountAggregCallbackRoute: typeof BankaccountAggregCallbackRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CallbackRoute: CallbackRoute,
   SigninRoute: SigninRoute,
+  BankaccountAggregCallbackRoute: BankaccountAggregCallbackRoute,
 }
 
 export const routeTree = rootRoute
@@ -116,18 +116,18 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/callback",
-        "/signin"
+        "/signin",
+        "/bankaccount/aggreg/callback"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/callback": {
-      "filePath": "callback.tsx"
-    },
     "/signin": {
       "filePath": "signin.tsx"
+    },
+    "/bankaccount/aggreg/callback": {
+      "filePath": "bankaccount/aggreg/callback.tsx"
     }
   }
 }

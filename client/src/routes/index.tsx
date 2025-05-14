@@ -1,5 +1,5 @@
+import { startTinkLinkAggregFlow } from '@/modules/aggreg/services/tink.service';
 import { authClient } from '@/modules/auth/services/auth-client.service';
-import { BankConnection } from '@/modules/shared/components/bank-connection';
 import { Button } from '@/modules/shared/components/ui/button';
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
 
@@ -38,15 +38,15 @@ function RouteComponent() {
         <Button onClick={handleSignout}>Sign Out</Button>
       </div>
 
-      <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
+      <div className="max-w-md mx-auto bg-white rounded-xl border overflow-hidden p-6">
         <h2 className="text-xl font-semibold mb-4">Connect Your Bank</h2>
         <p className="mb-4 text-gray-600">
           Link your bank account to access financial services.
         </p>
-        <BankConnection
-          redirectUri={`${window.location.origin}/callback`}
-          className="w-full"
-        />
+
+        <Button onClick={startTinkLinkAggregFlow} className="w-full">
+          Connect Bank Account
+        </Button>
       </div>
     </div>
   );
