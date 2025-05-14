@@ -1,4 +1,4 @@
 export interface IGuardService {
-  redirectIfNotAuthenticated: () => void;
-  redirectIfAuthenticated: () => void;
+  redirectIfNotAuthenticated: () => Promise<void>;
+  redirectIfAuthenticated: () => Promise<void>;
 }

@@ -9,9 +9,9 @@ import type { IGuardService } from './modules/auth/services/guard/guard.interfac
 export const services: Container = new Container();
 
 type ServiceTypeMap = {
-  ob: TinkImplem;
-  otp: BetterAuthOtpImplem;
-  guard: BetterAuthGuardImplem;
+  ob: IOBService;
+  otp: IOtpService;
+  guard: IGuardService;
 };
 
 services.bind<IOBService>('ob').to(TinkImplem);

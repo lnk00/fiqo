@@ -1,4 +1,4 @@
 export interface IOtpService {
-  sendOtpMail: (email: string) => void;
-  sendOtpVerification: (email: string, code: string) => void;
+  sendOtpMail: (email: string) => Promise<void>;
+  sendOtpVerification: (email: string, code: string) => Promise<void>;
 }
