@@ -1,7 +1,20 @@
 import { createAuthClient } from 'better-auth/react';
-import { emailOTPClient } from 'better-auth/client/plugins';
+import {
+  emailOTPClient,
+  inferAdditionalFields,
+} from 'better-auth/client/plugins';
 
 export const betterAuthClient = createAuthClient({
   baseURL: import.meta.env.VITE_SERVER_URL,
-  plugins: [emailOTPClient()],
+  plugins: [
+    inferAdditionalFields({
+      user: {
+        obUserId: {
+          type: 'string',
+          required: false,
+        },
+      },
+    }),
+    emailOTPClient(),
+  ],
 });
