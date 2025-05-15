@@ -2,7 +2,6 @@ import { betterAuth } from 'better-auth';
 import { Pool } from 'pg';
 import 'dotenv/config';
 import { emailOTP } from 'better-auth/plugins';
-import { Resend } from 'resend';
 import { getService } from '@server/ioc';
 
 export const auth = betterAuth({
@@ -48,16 +47,9 @@ export const auth = betterAuth({
   },
   plugins: [
     emailOTP({
-      // TODO: create email service
       async sendVerificationOTP({ email, otp }) {
-        const resend = new Resend(process.env.RESEND_KEY);
-
-        resend.emails.send({
-          from: 'onboarding@resend.dev',
-          to: email,
-          subject: `fiqo - ${otp} is your verification code`,
-          html: `<p>Enter the following verification code when prompted: ${otp}</p>`,
-        });
+        const mailService = getService('mail');
+        mailService.sendOtp(email, otp);
       },
     }),
   ],
