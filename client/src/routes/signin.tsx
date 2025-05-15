@@ -55,7 +55,7 @@ function RouteComponent() {
         </div>
       </div>
       <div className="w-full h-full p-8">
-        <div className="bg-base-300 h-full w-full rounded-2xl" />
+        <div className="bg-base-100 h-full w-full rounded-2xl" />
       </div>
     </div>
   );
