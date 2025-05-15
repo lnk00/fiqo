@@ -19,8 +19,7 @@ export function useAggregCallback() {
 
   useEffect(() => {
     try {
-      const code = oBService.handleAggregCallback();
-      console.log(code);
+      oBService.handleAggregCallback();
       setState({
         status: 'success',
         message: 'Bank account connected successfully!',

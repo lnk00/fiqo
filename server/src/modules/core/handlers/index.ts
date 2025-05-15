@@ -6,9 +6,6 @@ export const apiVersionHandler = async (c: Context<HonoContextType>) => {
   const sesssion = c.get('session');
   const user = c.get('user');
 
-  console.log(sesssion);
-  console.log(user);
-
   const data: ApiVersionResponse = {
     name: 'fiqo api',
     version: 'v0.0.1',

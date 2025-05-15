@@ -33,7 +33,6 @@ export const auth = betterAuth({
         before: async (user) => {
           const obCoreService = getService('obcore');
           const user_id = await obCoreService.createUser();
-          console.log('OB user created with id: ', user_id);
 
           return {
             data: {
