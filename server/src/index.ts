@@ -11,8 +11,8 @@ import { guardMiddleware } from './modules/auth/middlewares/guard.middleware';
 const app = new Hono<HonoContextType>();
 
 app.use('*', corsMiddleware);
-app.use('*', guardMiddleware);
 app.use('*', sessionMiddleware);
+app.use('/api/ob/*', guardMiddleware);
 
 const routes = app
   .on(['POST', 'GET'], '/api/auth/*', authHandler)
