@@ -1,9 +1,29 @@
+import { rpcClient } from '@/utils/http/clients/rpc.client';
 import type { IOBService } from '../ob.interface';
 import { injectable } from 'inversify';
 
 @injectable()
 export class TinkImplem implements IOBService {
   startAggregFlow() {
+    rpcClient.api.ob.delegate
+      .$get()
+      .then((res) => res.json())
+      .then((d) => console.log(d));
+    // this.openTinkLink();
+  }
+
+  handleAggregCallback() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    const error = urlParams.get('error');
+    const errorMessage = urlParams.get('message');
+
+    if (error || !code) throw errorMessage || 'Error: bank connection failed';
+
+    return code;
+  }
+
+  private openTinkLink() {
     const market = 'FR';
     const locale = 'en_US';
 
@@ -24,16 +44,5 @@ export class TinkImplem implements IOBService {
     tinkLinkUrl.searchParams.append('locale', locale);
 
     window.location.href = tinkLinkUrl.toString();
-  }
-
-  handleAggregCallback() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
-    const error = urlParams.get('error');
-    const errorMessage = urlParams.get('message');
-
-    if (error || !code) throw errorMessage || 'Error: bank connection failed';
-
-    return code;
   }
 }

@@ -3,6 +3,6 @@ export type ApiVersionResponse = {
   version: string;
 };
 
-export type CreateOBUserResponse = {
-  user_id: string;
+export type CreateDelegatedAuthResponse = {
+  code: string;
 };

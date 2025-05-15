@@ -27,6 +27,35 @@ export class TinkOBCoreImplem implements IOBCoreService {
     return d.user_id;
   }
 
+  async createDelegatedAuth(userId: string, hint: string) {
+    const access_token = await this.createAccessToken(['authorization:grant']);
+
+    const params = new URLSearchParams();
+    params.append('user_id', userId);
+    params.append('id_hint', hint);
+    params.append('actor_client_id', 'df05e4b379934cd09963197cc855bfe9');
+    params.append(
+      'scope',
+      'credentials:read,credentials:refresh,credentials:write,providers:read,user:read,authorization:read',
+    );
+
+    const response = await fetch(
+      `${this.BASE_URL}/oauth/authorization-grant/delegate`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params,
+      },
+    );
+
+    const d = (await response.json()) as { code: string };
+
+    return d.code;
+  }
+
   private async createAccessToken(scopes: AccessTokenScopes[]) {
     const params = new URLSearchParams();
     params.append('client_id', process.env.TINK_CLIENT_ID as string);

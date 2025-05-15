@@ -1,14 +1,19 @@
 import type { Context } from 'hono';
 import type { HonoContextType } from '@server/modules/core/types';
-import type { CreateOBUserResponse } from 'shared/dist';
+import type { CreateDelegatedAuthResponse } from 'shared/dist';
 import { getService } from '@server/ioc';
 
-export const createOBUserHandler = async (c: Context<HonoContextType>) => {
-  const obCoreService = getService('obcore');
-  const userId = await obCoreService.createUser();
+export const createDelegatedAuth = async (c: Context<HonoContextType>) => {
+  const user = c.get('user');
 
-  const data: CreateOBUserResponse = {
-    user_id: userId,
+  const obCoreService = getService('obcore');
+  const code = await obCoreService.createDelegatedAuth(
+    user?.obUserId || '',
+    user?.email || '',
+  );
+
+  const data: CreateDelegatedAuthResponse = {
+    code,
   };
 
   return c.json(data, { status: 200 });

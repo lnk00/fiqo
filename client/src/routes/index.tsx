@@ -1,5 +1,4 @@
 import { getService } from '@/ioc';
-import { rpcClient } from '@/utils/http/clients/rpc.client';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/' as never)({
@@ -23,13 +22,6 @@ function RouteComponent() {
     });
   };
 
-  const handleCreateUser = async () => {
-    const res = await rpcClient.api.ob.user.create
-      .$get()
-      .then((res) => res.json());
-    console.log(res);
-  };
-
   return (
     <div className="p-8 bg-base-100 h-screen">
       <div className="p-2 flex justify-between items-center mb-8">
@@ -50,25 +42,10 @@ function RouteComponent() {
             <div className="card-actions">
               <button
                 className="btn btn-primary"
-                onClick={oBService.startAggregFlow}
+                onClick={() => oBService.startAggregFlow()}
                 type="button"
               >
                 Connect Bank Account
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="card card-border bg-white w-96">
-          <div className="card-body">
-            <h2 className="card-title">Create a user</h2>
-            <div className="card-actions">
-              <button
-                className="btn btn-primary"
-                onClick={handleCreateUser}
-                type="button"
-              >
-                Create user
               </button>
             </div>
           </div>
