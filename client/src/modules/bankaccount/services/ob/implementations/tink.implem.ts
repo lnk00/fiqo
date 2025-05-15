@@ -4,12 +4,10 @@ import { injectable } from 'inversify';
 
 @injectable()
 export class TinkImplem implements IOBService {
-  startAggregFlow() {
-    rpcClient.api.ob.delegate
-      .$get()
-      .then((res) => res.json())
-      .then((d) => console.log(d));
-    // this.openTinkLink();
+  async startAggregFlow() {
+    const res = await rpcClient.api.ob.delegate.$get();
+    const { code } = await res.json();
+    this.openTinkLink(code);
   }
 
   handleAggregCallback() {
@@ -23,7 +21,7 @@ export class TinkImplem implements IOBService {
     return code;
   }
 
-  private openTinkLink() {
+  private openTinkLink(authCode: string) {
     const market = 'FR';
     const locale = 'en_US';
 
@@ -39,6 +37,7 @@ export class TinkImplem implements IOBService {
       'redirect_uri',
       `${window.location.origin}/bankaccount/aggreg/callback`,
     );
+    tinkLinkUrl.searchParams.append('authorization_code', authCode);
 
     tinkLinkUrl.searchParams.append('market', market);
     tinkLinkUrl.searchParams.append('locale', locale);
