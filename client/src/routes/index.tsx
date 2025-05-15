@@ -43,34 +43,34 @@ function RouteComponent() {
         </button>
       </div>
 
-      <div className="card card-border bg-white w-96 mx-auto">
-        <div className="card-body">
-          <h2 className="card-title">Connect your bank</h2>
-          <p>Link your bank account to access financial services.</p>
-          <div className="card-actions">
-            <button
-              className="btn btn-primary"
-              onClick={oBService.startAggregFlow}
-              type="button"
-            >
-              Connect Bank Account
-            </button>
+      <div className="flex gap-8">
+        <div className="card card-border bg-white w-96">
+          <div className="card-body">
+            <h2 className="card-title">Connect your bank</h2>
+            <div className="card-actions">
+              <button
+                className="btn btn-primary"
+                onClick={oBService.startAggregFlow}
+                type="button"
+              >
+                Connect Bank Account
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="card card-border bg-white w-96 mx-auto mt-8">
-        <div className="card-body">
-          <h2 className="card-title">Create a user</h2>
-          <p>Create an open banking user</p>
-          <div className="card-actions">
-            <button
-              className="btn btn-primary"
-              onClick={handleCreateUser}
-              type="button"
-            >
-              Create user
-            </button>
+        <div className="card card-border bg-white w-96">
+          <div className="card-body">
+            <h2 className="card-title">Create a user</h2>
+            <div className="card-actions">
+              <button
+                className="btn btn-primary"
+                onClick={handleCreateUser}
+                type="button"
+              >
+                Create user
+              </button>
+            </div>
           </div>
         </div>
       </div>
