@@ -1,6 +1,4 @@
 import { motion } from 'motion/react';
-import { Input } from '@/modules/shared/components/ui/input';
-import { Button } from '@/modules/shared/components/ui/button';
 
 interface EmailFormProps {
   email: string;
@@ -23,13 +21,20 @@ export function EmailForm({
       transition={{ duration: 0.3, easing: 'ease-out', delay: 0.2 }}
       className="flex flex-col gap-4 h-[300px]"
     >
-      <Input
+      <input
         type="email"
         placeholder="Email"
+        className="input input-lg w-full"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <Button onClick={handleSigninWithEmail}>sign-in with email</Button>
+      <button
+        className="btn btn-lg btn-neutral"
+        type="button"
+        onClick={handleSigninWithEmail}
+      >
+        sign-in with email
+      </button>
     </motion.div>
   );
 }

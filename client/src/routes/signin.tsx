@@ -25,13 +25,13 @@ function RouteComponent() {
   } = useSigninForm();
 
   return (
-    <div className="h-screen w-screen bg-white flex items-center justify-center">
+    <div className="h-screen w-screen bg-base-200 flex items-center justify-center">
       <div className="w-[900px] h-full px-32 py-16">
-        <h1 className="text-4xl font-display absolute">fiqo</h1>
+        <h1 className="text-4xl font-display font-bold absolute">fiqo</h1>
         <div className="h-full w-full flex justify-center flex-col gap-8">
-          <div className="flex flex-col gap-1">
-            <h2 className="text-5xl font-bold font-display">Sign-in</h2>
-            <div className="text-lg text-muted-foreground">
+          <div className="flex flex-col gap-2">
+            <h2 className="text-5xl font-bold">Sign-in</h2>
+            <div className="text-lg opacity-50">
               Enter your email to receive a one-time pass code.
             </div>
           </div>
@@ -55,7 +55,7 @@ function RouteComponent() {
         </div>
       </div>
       <div className="w-full h-full p-8">
-        <div className="bg-muted h-full w-full rounded-2xl" />
+        <div className="bg-base-300 h-full w-full rounded-2xl" />
       </div>
     </div>
   );

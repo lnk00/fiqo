@@ -1,11 +1,11 @@
 import { motion } from 'motion/react';
-import { Button } from '@/modules/shared/components/ui/button';
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSeparator,
   InputOTPSlot,
 } from '@/modules/shared/components/ui/input-otp';
+import { ArrowLeft } from 'lucide-react';
 
 interface OtpFormProps {
   otpFormRef: React.RefObject<HTMLDivElement>;
@@ -41,15 +41,22 @@ export function OtpForm({
           </InputOTPGroup>
         </InputOTP>
       </div>
-      <div className="flex gap-4">
-        <Button
-          className="flex-1"
-          variant="outline"
+      <div className="relative flex gap-4">
+        <button
+          className="btn btn-lg flex-1"
+          type="button"
           onClick={handleBackToEmail}
         >
-          Back to email
-        </Button>
-        <Button className="flex-1">Verify</Button>
+          <ArrowLeft />
+          back to email
+        </button>
+        <button
+          className="btn btn-lg btn-neutral flex-1"
+          type="button"
+          onClick={handleBackToEmail}
+        >
+          verify
+        </button>
       </div>
     </motion.div>
   );

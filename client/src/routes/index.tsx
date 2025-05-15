@@ -1,5 +1,4 @@
 import { getService } from '@/ioc';
-import { Button } from '@/modules/shared/components/ui/button';
 import { rpcClient } from '@/utils/http/clients/rpc.client';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 
@@ -29,21 +28,32 @@ function RouteComponent() {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-8 bg-base-200 h-screen">
       <div className="p-2 flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold">Dashboard</h1>
-        <Button onClick={handleSignout}>Sign Out</Button>
+        <button
+          className="btn btn-neutral"
+          type="button"
+          onClick={handleSignout}
+        >
+          sign out
+        </button>
       </div>
 
-      <div className="max-w-md mx-auto bg-white rounded-xl border overflow-hidden p-6">
-        <h2 className="text-xl font-semibold mb-4">Connect Your Bank</h2>
-        <p className="mb-4 text-gray-600">
-          Link your bank account to access financial services.
-        </p>
-
-        <Button onClick={oBService.startAggregFlow} className="w-full">
-          Connect Bank Account
-        </Button>
+      <div className="card card-border bg-base-100 border-base-300 w-96 mx-auto">
+        <div className="card-body">
+          <h2 className="card-title">Connect Your Bank</h2>
+          <p>Link your bank account to access financial services.</p>
+          <div className="card-actions">
+            <button
+              className="btn btn-primary"
+              onClick={oBService.startAggregFlow}
+              type="button"
+            >
+              Connect Bank Account
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
