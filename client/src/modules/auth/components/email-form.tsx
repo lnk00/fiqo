@@ -1,4 +1,6 @@
 import { motion } from 'motion/react';
+import googleLogo from '../../../assets/google.svg';
+import appleLogo from '../../../assets/apple.svg';
 
 interface EmailFormProps {
   email: string;
@@ -29,12 +31,30 @@ export function EmailForm({
         onChange={(e) => setEmail(e.target.value)}
       />
       <button
-        className="btn btn-lg btn-neutral"
+        className="btn btn-lg btn-primary"
         type="button"
         onClick={handleSigninWithEmail}
       >
         sign-in with email
       </button>
+      <div className="divider">OR</div>
+
+      <div className="flex gap-2">
+        <button
+          className="btn btn-md bg-black text-white border-black flex-1"
+          type="button"
+        >
+          <img src={appleLogo} alt="google" />
+          Login with Apple
+        </button>
+        <button
+          className="btn btn-md bg-white text-black border-[#e5e5e5] flex-1"
+          type="button"
+        >
+          <img src={googleLogo} alt="google" />
+          Login with Google
+        </button>
+      </div>
     </motion.div>
   );
 }
