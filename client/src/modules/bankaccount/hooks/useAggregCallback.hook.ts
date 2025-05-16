@@ -17,6 +17,7 @@ export function useAggregCallback() {
   });
   const oBService = getService('ob');
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     try {
       oBService.handleAggregCallback();
@@ -34,7 +35,7 @@ export function useAggregCallback() {
       });
       setTimeout(() => navigate({ to: '/' as never }), 3000);
     }
-  }, [navigate, oBService.handleAggregCallback]);
+  }, []);
 
   return state;
 }

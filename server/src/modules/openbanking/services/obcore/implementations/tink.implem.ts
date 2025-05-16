@@ -1,5 +1,6 @@
 import { injectable } from 'inversify';
 import type { IOBCoreService } from '../obcore.interface';
+import { sql } from 'bun';
 
 type AccessTokenScopes = 'user:create' | 'authorization:grant';
 
@@ -7,7 +8,7 @@ type AccessTokenScopes = 'user:create' | 'authorization:grant';
 export class TinkOBCoreImplem implements IOBCoreService {
   BASE_URL = 'https://api.tink.com/api/v1';
 
-  async createUser() {
+  async createUser(userId: string) {
     const access_token = await this.createAccessToken(['user:create']);
 
     const response = await fetch(`${this.BASE_URL}/user/create`, {
@@ -19,6 +20,7 @@ export class TinkOBCoreImplem implements IOBCoreService {
       body: JSON.stringify({
         locale: 'en_US',
         market: 'FR',
+        external_user_id: userId,
       }),
     });
 
@@ -28,10 +30,15 @@ export class TinkOBCoreImplem implements IOBCoreService {
   }
 
   async createDelegatedAuth(userId: string, hint: string) {
+    const ob_provider = await sql`
+    SELECT * FROM public.ob_provider
+    WHERE user_id = ${userId}
+    `;
+
     const access_token = await this.createAccessToken(['authorization:grant']);
 
     const params = new URLSearchParams();
-    params.append('user_id', userId);
+    params.append('user_id', ob_provider[0].provider_user_id);
     params.append('id_hint', hint);
     params.append('actor_client_id', 'df05e4b379934cd09963197cc855bfe9');
     params.append(

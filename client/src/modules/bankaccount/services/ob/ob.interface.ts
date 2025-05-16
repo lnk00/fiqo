@@ -1,4 +1,4 @@
 export interface IOBService {
   startAggregFlow: () => Promise<void>;
-  handleAggregCallback: () => string;
+  handleAggregCallback: () => Promise<string>;
 }

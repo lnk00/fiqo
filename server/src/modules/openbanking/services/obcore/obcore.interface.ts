@@ -1,4 +1,4 @@
 export interface IOBCoreService {
-  createUser: () => Promise<string>;
+  createUser: (userId: string) => Promise<string>;
   createDelegatedAuth: (userId: string, hint: string) => Promise<string>;
 }
