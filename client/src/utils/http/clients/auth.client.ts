@@ -6,15 +6,5 @@ import {
 
 export const betterAuthClient = createAuthClient({
   baseURL: import.meta.env.VITE_SERVER_URL,
-  plugins: [
-    inferAdditionalFields({
-      user: {
-        obUserId: {
-          type: 'string',
-          required: false,
-        },
-      },
-    }),
-    emailOTPClient(),
-  ],
+  plugins: [inferAdditionalFields({}), emailOTPClient()],
 });

@@ -3,21 +3,14 @@ import { Pool } from 'pg';
 import 'dotenv/config';
 import { emailOTP } from 'better-auth/plugins';
 import { getService } from '@server/ioc';
+import { sql } from 'bun';
 
 export const auth = betterAuth({
   database: new Pool({
-    connectionString: process.env.DB_URL,
+    connectionString: process.env.POSTGRES_URL,
     ssl: true,
   }),
   trustedOrigins: [process.env.FRONT_URL || ''],
-  user: {
-    additionalFields: {
-      obUserId: {
-        type: 'string',
-        required: false,
-      },
-    },
-  },
   session: {
     cookieCache: {
       enabled: true,
@@ -30,16 +23,15 @@ export const auth = betterAuth({
   databaseHooks: {
     user: {
       create: {
-        before: async (user) => {
+        after: async (user) => {
           const obCoreService = getService('obcore');
-          const user_id = await obCoreService.createUser();
+          const provider_user_id = await obCoreService.createUser();
 
-          return {
-            data: {
-              ...user,
-              obUserId: user_id,
-            },
-          };
+          await sql`
+            INSERT INTO ob_provider (type, provider_user_id, user_id) 
+            VALUES ('tink', ${provider_user_id}, ${user.id})
+            RETURNING *
+          `;
         },
       },
     },
