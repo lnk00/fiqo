@@ -13,11 +13,7 @@ export const createDelegatedAuth = async (c: Context<HonoContextType>) => {
     user?.email || '',
   );
 
-  const data: CreateDelegatedAuthResponse = {
-    code,
-  };
-
-  return c.json(data, { status: 200 });
+  return c.json({ code } as CreateDelegatedAuthResponse, { status: 200 });
 };
 
 export const createBankConection = async (c: Context<HonoContextType>) => {
